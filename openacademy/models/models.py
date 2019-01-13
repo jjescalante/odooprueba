@@ -1,37 +1,34 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api, exceptions, _
-import time
-from psycopg2 import IntegrityError
 from datetime import timedelta
 
-def get_uid(self, *a):
-    return self.env.uid
+    def get_uid(self, *a):
+        return self.env.uid
 
-class Course(models.Model):
-    _name = 'openacademy.course'
+    class Course(models.Model):
+        _name = 'openacademy.course'
 
     name = fields.Char(string="Title", required=True)
     description = fields.Text()
-    responsible_id = fields.Many2one(
-            'res.users', string="Responsible",
-            index=True, ondelete='set null',
-            #  default=lambda self, *a: self.env.uid)
-            default=get_uid)
+    responsible_id = fields.Many2one('res.users', string="Responsible",
+                                    index=True, ondelete='set null',
+                                    default=get_uid)
     session_ids = fields.One2many('openacademy.session', 'course_id')
 
     _sql_constraints = [
             ('name_description_check',
-             'CHECK( name != description )',
-             "The title of course should not be the description"),
+            'CHECK( name != description )',
+            "The title of course should not be the description"),
             ('name_unique', 'UNIQUE(name)',
-             "The course title must be unique",),
+            "The course title must be unique",),
             ]
 
     def copy(self, default=None):
         if default is None:
             default = {}
-        copied_count = self.search_count([('name', 'ilike', _('Copy of %s%%') % (self.name))])
+        copied_count = self.search_count([('name', 'ilike',
+            _('Copy of %s%%') % (self.name))])
         if not copied_count:
             new_name =_("Copy of %s") % (self.name)
         else:
@@ -39,8 +36,8 @@ class Course(models.Model):
         default['name'] = new_name
         return super(Course, self).copy(default)
 
-class Session(models.Model):
-    _name = 'openacademy.session'
+    class Session(models.Model):
+        _name = 'openacademy.session'
 
     name = fields.Char(required=True)
     start_date = fields.Date(default=fields.Date.today)
