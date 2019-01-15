@@ -47,8 +47,8 @@ class Session(models.Model):
     duration = fields.Float(digits=(6, 2), help="Duration in days")
     seats = fields.Integer(string="Number of seats")
     instructor_id = fields.Many2one('res.partner', string='Instructor',
-                                    domain=['|', ('instructor', '=', 'True'),
-                                    ('category_id.name', 'ilike', 'Teacher')])
+                                    domain=['|', ('instructor', '=', 'True'), (
+                                    'category_id.name', 'ilike', 'Teacher')])
     course_id = fields.Many2one('openacademy.course',
                                 ondelete='cascade', string="Course",
                                 required=True)
@@ -91,8 +91,7 @@ class Session(models.Model):
         if self.filtered(lambda r: r.seats < 0):
             self.active = False
             return { 'warning': {
-                'title': _("Incorrect 'seats' value"),
-                'message':
+                'title': _("Incorrect 'seats' value"), 'message':
                 _("The number of available seats may not be negative"),
                 }
                     }
@@ -110,4 +109,4 @@ class Session(models.Model):
         for record in self.filtered('instructor_id'):
             if record.instructor_id in record.attendee_ids:
                 raise exceptions.ValidationError(
-                        _("A session's instructor can't be an attendee"))
+                      _("A session's instructor can't be an attendee"))
