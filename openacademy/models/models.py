@@ -1,10 +1,12 @@
-# -*- coding: utf-8 -*-
+#-*- coding: utf-8 -*-
 
 from odoo import models, fields, api, exceptions, _
 from datetime import timedelta
 
+
 def get_uid(self, *a):
     return self.env.uid
+
 
 class Course(models.Model):
     _name = 'openacademy.course'
@@ -24,6 +26,7 @@ class Course(models.Model):
         "The course title must be unique",),
         ]
 
+
 def copy(self, default=None):
         if default is None:
             default = {}
@@ -35,6 +38,7 @@ def copy(self, default=None):
             new_name = _("Copy of %s (%s)") % (self.name, copied_count)
         default['name'] = new_name
         return super(Course, self).copy(default)
+
 
 class Session(models.Model):
         _name = 'openacademy.session'
