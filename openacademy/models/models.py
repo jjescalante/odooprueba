@@ -13,14 +13,15 @@ class Course(models.Model):
     name = fields.Char(string="Title", required=True)
     description = fields.Text()
     responsible_id = fields.Many2one('res.users', string="Responsible",
-        index=True, ondelete='set null', default=get_uid)
+                                      index=True, ondelete='set null',
+                                      default=get_uid)
     session_ids = fields.One2many('openacademy.session', 'course_id')
     _sql_constraints = [('name_description_check',
                          'CHECK( name != description )',
                          "The title of course should not be the description"),
                         ('name_unique', 'UNIQUE(name)',
                          "The course title must be unique", ),
-    ]
+                       ]
 
 
 def copy(self, default=None):
