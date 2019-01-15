@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 from odoo import models, fields, api, exceptions, _
 from datetime import timedelta
 
@@ -13,15 +14,15 @@ class Course(models.Model):
     name = fields.Char(string="Title", required=True)
     description = fields.Text()
     responsible_id = fields.Many2one('res.users', string="Responsible",
-                                      index=True, ondelete='set null',
-                                      default=get_uid)
+                                     index=True, ondelete='set null',
+                                     default=get_uid)
     session_ids = fields.One2many('openacademy.session', 'course_id')
     _sql_constraints = [('name_description_check',
                          'CHECK( name != description )',
                          "The title of course should not be the description"),
                         ('name_unique', 'UNIQUE(name)',
                          "The course title must be unique", ),
-                       ]
+    ]
 
 
 def copy(self, default=None):
@@ -38,7 +39,7 @@ def copy(self, default=None):
 
 
 class Session(models.Model):
-        _name = 'openacademy.session'
+    _name = 'openacademy.session'
 
     name = fields.Char(required=True)
     start_date = fields.Date(default=fields.Date.today)
