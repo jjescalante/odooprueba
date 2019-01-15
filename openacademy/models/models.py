@@ -48,7 +48,8 @@ class Session(models.Model):
     seats = fields.Integer(string="Number of seats")
     instructor_id = fields.Many2one('res.partner', string='Instructor',
                                     domain=['|', ('instructor', '=', 'True'), (
-                                  'category_id.name', 'ilike', 'Teacher')])
+                                                  'category_id.name', 'ilike',
+                                                  'Teacher')])
     course_id = fields.Many2one('openacademy.course',
                                 ondelete='cascade', string="Course",
                                 required=True)
@@ -83,8 +84,8 @@ class Session(models.Model):
     @api.depends('seats', 'attendee_ids')
     def _taken_seats(self):
         for record in self.filtered(lambda r: r.seats):
-            record.taken_seats = 100.0 * len(
-                             record.attendee_ids) / record.seats
+            record.taken_seats =
+            100.0 * len(record.attendee_ids) / record.seats
 
     @api.onchange('seats', 'attendee_ids')
     def _verify_valid_seats(self):
@@ -108,5 +109,5 @@ class Session(models.Model):
     def _check_instructor_not_in_attendees(self):
         for record in self.filtered('instructor_id'):
             if record.instructor_id in record.attendee_ids:
-                raise exceptions.ValidationError(
-                _("A session's instructor can't be an attendee"))
+                raise exceptions.ValidationError(_(
+                    "A session's instructor can't be an attendee"))
