@@ -22,7 +22,7 @@ class Course(models.Model):
                          "The title of course should not be the description"),
                         ('name_unique', 'UNIQUE(name)',
                          "The course title must be unique", ),
-    ]
+                        ]
 
 
 def copy(self, default=None):
@@ -47,17 +47,18 @@ class Session(models.Model):
     duration = fields.Float(digits=(6, 2), help="Duration in days")
     seats = fields.Integer(string="Number of seats")
     instructor_id = fields.Many2one('res.partner', string='Instructor',
-                    domain=['|', ('instructor', '=', 'True'),
-                    ('category_id.name', 'ilike', 'Teacher')])
+                                    domain=['|', ('instructor', '=', 'True'),
+                                   ('category_id.name', 'ilike', 'Teacher')])
     course_id = fields.Many2one('openacademy.course',
-        ondelete='cascade', string="Course", required=True)
+                                ondelete='cascade', string="Course",
+                                required=True)
     attendee_ids = fields.Many2many('res.partner', string="Attendees")
     taken_seats = fields.Float(compute='_taken_seats', store=True)
     active = fields.Boolean(default=True)
     end_date = fields.Date(store=True,
-        compute='_get_end_date', inverse='_set_end_date')
+                           compute='_get_end_date', inverse='_set_end_date')
     attendees_count = fields.Integer(compute='_get_attendees_count',
-        store=True)
+                                     store=True)
     color = fields.Float()
 
     @api.depends('attendee_ids')
@@ -70,7 +71,7 @@ class Session(models.Model):
         for record in self.filtered('start_date'):
             start_date = fields.Datetime.from_string(record.start_date)
             record.end_date = start_date + timedelta(days=record.duration,
-                seconds=-1)
+                                                     seconds=-1)
 
     @api.depends('start_date', 'duration')
     def _set_end_date(self):
@@ -82,31 +83,34 @@ class Session(models.Model):
     @api.depends('seats', 'attendee_ids')
     def _taken_seats(self):
         for record in self.filtered(lambda r: r.seats):
-            record.taken_seats = 100.0 * len(record.attendee_ids)
-            / record.seats
+            record.taken_seats = 100.0 * len(
+                    record.attendee_ids) / record.seats
 
     @api.onchange('seats', 'attendee_ids')
     def _verify_valid_seats(self):
-        if self.filtered(lambda r: r.seats <0):
+        if self.filtered(lambda r: r.seats < 0):
             self.active = False
             return {
-                    'warning':{
-                        'title':_("Incorrect 'seats' value"),
-                        'message': _("The number of available seats may not be negative"),
+                    'warning': {
+                        'title': _("Incorrect 'seats' value"),
+                        'message':
+                        _("The number of available seats may not be negative"),
                         }
                     }
         if self.seats < len(self.attendee_ids):
             self.active = False
             return {
                     'warning': {
-                        'title':_("Too many attendees"),
-                        'message':_("Increase seats or remove excess attendees"),
+                        'title': _("Too many attendees"),
+                        'message': _(
+                            "Increase seats or remove excess attendees"),
                         }
                     }
         self.active = True
 
-    @api.constrains('instructor_id','attendee_ids')
+    @api.constrains('instructor_id', 'attendee_ids')
     def _check_instructor_not_in_attendees(self):
         for record in self.filtered('instructor_id'):
             if record.instructor_id in record.attendee_ids:
-                raise exceptions.ValidationError(_("A session's instructor can't be an attendee"))
+                raise exceptions.ValidationError(
+                        _("A session's instructor can't be an attendee"))
