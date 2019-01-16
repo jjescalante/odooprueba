@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 {
     'name': "openacademy",
 
@@ -20,8 +21,8 @@
     'category': 'Uncategorized',
     'version': '0.1',
 
-    # any module necessary for this one to work correctly
-    'depends': ['base'],
+    # any module 'base'  necessary for this one to work correctly
+    'depends': ['openacademy'],
 
     # always loaded
     'data': [
