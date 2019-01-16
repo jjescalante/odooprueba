@@ -3,10 +3,10 @@ sudo: false
 cache: pip
 
 python:
-    - "3,5"
+    - "2,7.12"
 
 addons:
-    postgresql: "9.5"
+#    postgresql: "9.5"
     apt:
 #only add the two lines below if you need wkhtmltopdf for your tests
 #    sources:
@@ -21,9 +21,9 @@ addons:
 
 env:
     global:
-        - VERSION="10.0" TESTS="0" LINT_CHECK="1"
-        - PHANTOMJS_VERSION="latest"
-        - WEBSITE_REPO="1"
+        - VERSION="8.0" TESTS="0" LINT_CHECK="1"
+#       - PHANTOMJS_VERSION="latest"
+#       - WEBSITE_REPO="1"
 
 # virtualenv:
 #    system_site_packages: true
