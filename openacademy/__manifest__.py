@@ -22,7 +22,7 @@
     'version': '0.1',
 
     # any module 'base'  necessary for this one to work correctly
-    'depends': ['openacademy'],
+    'depends': ['base'],
 
     # always loaded
     'data': [
