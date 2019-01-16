@@ -54,11 +54,11 @@ class Session(models.Model):
                                 ondelete='cascade', string="Course",
                                 required=True)
     attendee_ids = fields.Many2many('res.partner', string="Attendees")
-    taken_seats = fields.Float(compute='_taken_seats', store=True)
+    taken_seats = fields.Float(_compute='_taken_seats', store=True)
     active = fields.Boolean(default=True)
     end_date = fields.Date(store=True,
-                           compute='_get_end_date', inverse='_set_end_date')
-    attendees_count = fields.Integer(compute='_get_attendees_count',
+                           _compute='_get_end_date', _inverse='_set_end_date')
+    attendees_count = fields.Integer(_compute='_get_attendees_count',
                                      store=True)
     color = fields.Float()
 
