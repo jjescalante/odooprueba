@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<odoo>
+ <odoo>
+
+    <!-- Add instructor field to existing view -->
     <record model="ir.ui.view" id="partner_instructor_form_view">
         <field name="name">partner.instructor</field>
         <field name="model">res.partner</field>
