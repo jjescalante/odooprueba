@@ -21,9 +21,11 @@
             <xpath expr="//notebook/page[@name='sales_purchases']//field[@name='ref']" position="before">
                 <field name="other_field2"/>
             </xpath>
+            <!--
             <xpath expr="//notebook/page[@name='sales_purchases']//field[@name='ref']" position="replace">
                 <field name="ref" string="Reference"/>
             </xpath>
+            -->
             <xpath expr="//notebook/page[@name='sales_purchases']//field[@name='user_id']" position="attributes">
                 <attribute name="attrs">{'readonly': True}</attribute>
             </xpath>
