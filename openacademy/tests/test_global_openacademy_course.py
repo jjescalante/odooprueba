@@ -33,4 +33,4 @@ class GlobalTestOpenAcademyCourse(TransactionCase):
         Test create a course with same name and descriptrion
         to test contraint of name different to description.
         '''
-        self.create_course('test', 'test', None)
+        self.create_course('test1', 'test', None)
