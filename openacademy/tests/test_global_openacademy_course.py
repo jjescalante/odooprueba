@@ -3,11 +3,13 @@
 from openerp.tests.common import TransactionCase
 
 
-class GlobalTestOpenAcademyCourse(TransactionCase):
-    '''
-    Global test to openacademy course model.
-    Test create course and trigger contraints.
-    '''
+#class GlobalTestOpenAcademyCourse(TransactionCase):
+#   '''
+
+#    Global test to openacademy course model.
+#   Test create course and trigger contraints.
+
+#    '''
 
     # Method seudo-constructor of test setUp
     #def setUp(self):
